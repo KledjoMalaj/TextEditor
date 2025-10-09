@@ -1,1 +1,24 @@
 @import 'tailwindcss';
+
+.Editor{
+    @apply w-full px-4 py-6 min-h-[650px] md:max-w-4xl md:mx-auto bg-white rounded border border-gray-300
+    shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-base leading-relaxed
+}
+
+.ToolBar-Button{
+    @apply bg-gray-200 px-4 py-1 cursor-pointer hover:shadow-md rounded
+    transition duration-300 hover:bg-blue-200
+}
+
+.Editor h1 {
+    @apply text-4xl font-bold
+}
+.Editor h2 {
+    @apply text-3xl font-semibold
+}
+.Editor h3 {
+    @apply text-2xl font-medium
+}
+.Editor p {
+    @apply text-base
+}
