@@ -18,30 +18,15 @@ function ToolBar({content}){
     }
 
     const handleBold = () =>{
-        const selectedText = window.getSelection()
-        if (selectedText.toString().length > 0) {
-            document.execCommand('bold',false, null)
-        } else{
-            console.log('Nothing is selected')
-        }
+        document.execCommand('bold',false, null)
     }
 
     const handleItalic = () => {
-        const selectedText = window.getSelection()
-        if (selectedText.toString().length > 0) {
-            document.execCommand('italic',false,null)
-        } else {
-            console.log('Nothing is selected')
-        }
+        document.execCommand('italic',false,null)
     }
 
     const handleUnderline = () => {
-        const selectedText = window.getSelection()
-        if(selectedText.toString().length > 0){
-            document.execCommand('underline', false, null)
-        } else {
-            console.log('Nothing is selected')
-        }
+        document.execCommand('underline', false, null)
     }
 
     const handleHeading = (event) => {

@@ -9,7 +9,6 @@ function Editor({setContent}){
     return(
         <>
             <div className={'p-2'}>
-
                 <div  className={"Editor"} contentEditable={'true'} onInput={handleInput}>
                 </div>
 
