@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {FetchFonts} from "../apis.js";
+import axios from "axios";
 
 function ToolBar({content}){
     const [showColorPicker, setShowColorPicker] = useState(false);
@@ -64,6 +65,18 @@ function ToolBar({content}){
     const handleAlign = (event) =>{
         const value = event.target.value
         document.execCommand(value,false,null)
+    }
+
+    const handleSave = () => {
+        console.log(content)
+        axios.post(`http://localhost:3030/Documents/add`,{
+            title:"New work",
+            content:content
+        })
+    }
+
+    const handleUpdate = () => {
+        console.log(content)
     }
 
     useEffect(() => {
@@ -134,10 +147,14 @@ function ToolBar({content}){
                     </select>
                 </div>
 
-                <div className={'ml-auto'}>
-                    <h1 className={'ToolBar-Button px-3 py-1'}>{content.length}</h1>
+
+                <div>
+                    <button className={'ToolBar-Button px-2 py-1'} onClick={handleSave}>Save</button>
                 </div>
 
+                <div>
+                    <button className={'ToolBar-Button px-2 py-1'} onClick={handleUpdate}>Update</button>
+                </div>
 
             </div>
 

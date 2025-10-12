@@ -1,17 +1,21 @@
 import './App.css'
 import Editor from "./components/Editor.jsx";
 import ToolBar from "./components/ToolBar.jsx";
-import {use, useState} from "react";
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LandingPage from "./components/LandingPage.jsx";
 
 function App() {
-    const [content,setContent]=useState("")
+    const [content, setContent] = useState("");
 
-  return (
-    <>
-        <ToolBar content={content}/>
-        <Editor setContent={setContent}/>
-   </>
-  )
+    return (
+        <>
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/editor/:title" element={<Editor />} />
+            </Routes>
+        </>
+    );
 }
 
-export default App
+export default App;

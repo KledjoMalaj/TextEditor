@@ -5,6 +5,8 @@ import cors from "cors"
 const app = express();
 const port = 3030
 
+
+app.use(cors())
 app.use(express.json());
 
 app.post('/Documents/add',(req,res)=>{
@@ -31,6 +33,35 @@ app.get('/Documents/get/:title',(req,res)=>{
         }
         res.json(row)
     })
+})
+
+app.get('/Documents/getAll',(req,res)=>{
+    const sql = 'SELECT * FROM documents'
+    db.all(sql,(err, row)=>{
+        if(err){
+            return res.status(500).json({error:err.message})
+        }
+        if(!row){
+            return res.status(404).json({error:"Documents not found"})
+        }
+        res.json(row)
+    })
+})
+
+app.put('/Document/update/:title',(req,res)=>{
+    const {id} = req.params;
+    const {title,content} = req.body
+
+    const sql = 'UPDATE documents SET title = ?, content = ? , updated_at = CURRENT_TIMESTAMP WHERE id = ?'
+    db.run(sql,[title,content],function(err){
+        if(err){
+            return res.status(500).json({error:err.message})
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: 'Document not found' });
+        }
+        res.json({ id, title, content, updated: true });
+        })
 })
 
 
