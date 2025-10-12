@@ -6,8 +6,12 @@
 }
 
 .ToolBar-Button{
-    @apply bg-gray-200 px-4 py-1 cursor-pointer hover:shadow-md rounded
-    transition duration-300 hover:bg-blue-200
+    @apply bg-gray-200 cursor-pointer hover:shadow-md rounded
+    transition hover:bg-blue-200
+}
+.innerElement{
+    @apply bg-gray-200 px-4 py-1 cursor-pointer rounded
+    transition-all hover:bg-blue-200
 }
 
 .Editor h1 {
