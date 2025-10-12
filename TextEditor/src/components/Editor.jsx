@@ -25,7 +25,7 @@ function Editor(){
     return(
         <>
             <div>
-                <ToolBar content={content}/>
+                <ToolBar content={content} title={title}/>
             </div>
 
             <div className={'p-2'}>

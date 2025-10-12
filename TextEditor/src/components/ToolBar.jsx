@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {FetchFonts} from "../apis.js";
 import axios from "axios";
 
-function ToolBar({content}){
+function ToolBar({content,title}){
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [fontSize,setFontSize] = useState(3)
     const [fontNames,setFontNames] = useState([])
@@ -68,15 +68,14 @@ function ToolBar({content}){
     }
 
     const handleSave = () => {
-        console.log(content)
         axios.post(`http://localhost:3030/Documents/add`,{
-            title:"New work",
+            title:title,
             content:content
         })
     }
 
     const handleUpdate = () => {
-        console.log(content)
+        axios.put(`http://localhost:3030/Document/update/${id}`)
     }
 
     useEffect(() => {

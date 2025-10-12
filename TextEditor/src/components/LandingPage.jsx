@@ -26,7 +26,7 @@ function LandingPage() {
                         <h1 className={''}>{i.title}</h1>
                     </div>
                     <div className={'mt-5 px-5'} dangerouslySetInnerHTML={{ __html: i.content }}></div>
-                    <div className={"bg-blue-400 w-10 h-10 rounded text-center px-2 m-2 float-end mt-42"}>E</div>
+
                 </div>
                 )}
             </div>
