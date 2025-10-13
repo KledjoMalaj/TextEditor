@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {FetchFonts} from "../apis.js";
 import axios from "axios";
 
-function ToolBar({content,title}){
+function ToolBar({content,id}){
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [fontSize,setFontSize] = useState(3)
     const [fontNames,setFontNames] = useState([])
@@ -67,15 +67,10 @@ function ToolBar({content,title}){
         document.execCommand(value,false,null)
     }
 
-    const handleSave = () => {
-        axios.post(`http://localhost:3030/Documents/add`,{
-            title:title,
-            content:content
-        })
-    }
-
     const handleUpdate = () => {
-        axios.put(`http://localhost:3030/Document/update/${id}`)
+        axios.put(`http://localhost:3030/Document/update/${id}`,{
+            content
+        })
     }
 
     useEffect(() => {
@@ -144,11 +139,6 @@ function ToolBar({content,title}){
                         <option value={'justifyRight'}>Right</option>
                         <option value={'justifyFull'}>Justify</option>
                     </select>
-                </div>
-
-
-                <div>
-                    <button className={'ToolBar-Button px-2 py-1'} onClick={handleSave}>Save</button>
                 </div>
 
                 <div>

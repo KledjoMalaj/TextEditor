@@ -12,7 +12,7 @@ function App() {
         <>
             <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="/editor/:title" element={<Editor />} />
+                <Route path="/editor/:id" element={<Editor />} />
             </Routes>
         </>
     );

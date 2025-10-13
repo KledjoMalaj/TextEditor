@@ -5,18 +5,19 @@ import axios from "axios";
 
 function Editor(){
     const [content,setContent] = useState("")
-    const {title} = useParams()
+    const {id} = useParams()
     const editorRef = useRef(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:3030/Documents/get/${title}`)
+        axios.get(`http://localhost:3030/Documents/get/${id}`)
             .then((res)=>{
+
 
                 if (editorRef.current) {
                     editorRef.current.innerHTML = res.data.content;
                 }
             })
-    }, [title]);
+    }, [id]);
 
     const handleInput = (e) => {
         setContent(e.target.innerHTML)
@@ -25,7 +26,7 @@ function Editor(){
     return(
         <>
             <div>
-                <ToolBar content={content} title={title}/>
+                <ToolBar content={content} id={id}/>
             </div>
 
             <div className={'p-2'}>
