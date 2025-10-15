@@ -1,12 +1,30 @@
-import {useEffect, useState} from "react";
+import {useEffect, useReducer, useState} from "react";
 import {FetchFonts} from "../apis.js";
 import axios from "axios";
+
 
 function ToolBar({content,id}){
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [fontSize,setFontSize] = useState(3)
     const [fontNames,setFontNames] = useState([])
 
+    const [state,dispatch] = useReducer((state,action)=>{
+        switch (action.type){
+            case "BOLD":
+                return {...state, bold: !state.bold}
+            case "ITALIC":
+                return {...state, italic: !state.italic}
+            case "UNDERLINE":
+                return {...state, underline: !state.underline}
+            default :
+                return state
+        }
+
+    },{
+        bold:false,
+        italic:false,
+        underline:false
+    })
 
     const colors = [
         '#000000', '#434343', '#666666', '#999999', '#b7b7b7',
@@ -16,18 +34,6 @@ function ToolBar({content,id}){
 
     const handleColor = (color) => {
         document.execCommand('foreColor', false, color);
-    }
-
-    const handleBold = () =>{
-        document.execCommand('bold',false, null)
-    }
-
-    const handleItalic = () => {
-        document.execCommand('italic',false,null)
-    }
-
-    const handleUnderline = () => {
-        document.execCommand('underline', false, null)
     }
 
     const handleHeading = (event) => {
@@ -90,14 +96,29 @@ function ToolBar({content,id}){
             <div className={'flex rounded bg-white m-2 p-2 shadow-sm gap-2'}>
 
                 <div className="w-px bg-black"></div>
-                <button className={'ToolBar-Button px-2'}
-                        onClick={handleBold}><b>B</b></button>
+                <button className={`ToolBar-Button px-2 ${state.bold ? "bg-blue-300" : "bg-gray-200"}`}
+                        onClick={()=>{
+                            document.execCommand('bold', false, null);
+                            dispatch({type:'BOLD'})
+                        }}>
+                    <b>B</b>
+                </button>
 
-                <button className={'ToolBar-Button px-3'}
-                        onClick={handleItalic}><i>I</i></button>
+                <button className={`ToolBar-Button px-3 ${state.italic ? "bg-blue-300" : "bg-gray-200"}`}
+                        onClick={()=>{
+                            document.execCommand('italic',false,null)
+                            dispatch({type:"ITALIC"})
+                        }}>
+                    <i>I</i>
+                </button>
 
-                <button className={'ToolBar-Button px-2'}
-                        onClick={handleUnderline}><u>U</u></button>
+                <button className={`ToolBar-Button px-2 ${state.underline ? "bg-blue-300" : "bg-gray-200"}`}
+                        onClick={()=>{
+                            document.execCommand('underline',false,null)
+                            dispatch({type:"UNDERLINE"})
+                        }}>
+                    <u>U</u>
+                </button>
 
                 <button className={'ToolBar-Button px-2'} onClick={() => setShowColorPicker(!showColorPicker)}>Text Color</button>
 

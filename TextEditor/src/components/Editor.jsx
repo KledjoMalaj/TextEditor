@@ -25,12 +25,12 @@ function Editor(){
 
     return(
         <>
-            <div>
+            <div className={"sticky top-0 pt-1"}>
                 <ToolBar content={content} id={id}/>
             </div>
 
             <div className={'p-2'}>
-                <div ref={editorRef} className={"Editor"} contentEditable={'true'} onInput={handleInput}>
+                <div ref={editorRef} className={"Editor"} suppressContentEditableWarning contentEditable={'true'} onInput={handleInput}>
                 </div>
 
             </div>
