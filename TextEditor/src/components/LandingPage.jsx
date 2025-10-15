@@ -36,21 +36,32 @@ function LandingPage() {
             </div>
 
 
-            <div className={'grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 mx-5 gap-5'}>
-
-                {documents && documents.map(i=>
-                    <div   key={i.id}>
-                        <div className={'bg-blue-400 flex justify-between p-2 rounded-t'}>
-                            <h1 className={'text-white'}>{i.title}</h1>
-                            <button className={'bg-red-400 px-2 rounded cursor-pointer'} onClick={()=>handleDelete(i.id)}>Delete</button>
+            <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-6 mx-5">
+                {documents && documents.map(i => (
+                    <div key={i.id} className="bg-white rounded shadow-lg flex flex-col">
+                        <div className="bg-blue-500 flex justify-between items-center p-3 rounded-t">
+                            <h1 className="text-white text-lg font-semibold">{i.title}</h1>
+                            <button
+                                className="bg-red-500 hover:bg-red-600 transition-colors px-3 py-1 rounded font-medium text-white cursor-pointer"
+                                onClick={() => handleDelete(i.id)}
+                            >
+                                Delete
+                            </button>
                         </div>
 
-                        <div onClick={()=>handleOpenDoc(i.id)} className={'h-75 bg-white rounded shadow-lg cursor-pointer p-2'}>
-                            <div  className={'mt-5 px-5'} dangerouslySetInnerHTML={{ __html: i.content }}></div>
+                        <div
+                            onClick={() => handleOpenDoc(i.id)}
+                            className="flex-grow cursor-pointer p-4 overflow-hidden h-[270px] document-preview"
+                        >
+                            <div
+                                dangerouslySetInnerHTML={{ __html: i.content }}
+                            />
                         </div>
+
                     </div>
-                )}
+                ))}
             </div>
+
         </>
     )
 }
