@@ -7,6 +7,7 @@ function ToolBar({content,id}){
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [fontSize,setFontSize] = useState(3)
     const [fontNames,setFontNames] = useState([])
+    const [ColorNow,setColorNow] = useState('black')
 
     const [state,dispatch] = useReducer((state,action)=>{
         switch (action.type){
@@ -16,6 +17,8 @@ function ToolBar({content,id}){
                 return {...state, italic: !state.italic}
             case "UNDERLINE":
                 return {...state, underline: !state.underline}
+            case "COLOR":
+                return {...state, color: !state.color}
             default :
                 return state
         }
@@ -23,7 +26,8 @@ function ToolBar({content,id}){
     },{
         bold:false,
         italic:false,
-        underline:false
+        underline:false,
+        color:"black"
     })
 
     const colors = [
@@ -32,9 +36,6 @@ function ToolBar({content,id}){
         '#00ffff', '#0000ff', '#9900ff', '#ff00ff'
     ];
 
-    const handleColor = (color) => {
-        document.execCommand('foreColor', false, color);
-    }
 
     const handleHeading = (event) => {
         const value = event.target.value
@@ -120,7 +121,9 @@ function ToolBar({content,id}){
                     <u>U</u>
                 </button>
 
-                <button className={'ToolBar-Button px-2'} onClick={() => setShowColorPicker(!showColorPicker)}>Text Color</button>
+                <button className={`ToolBar-Button px-2`}
+                        onClick={() => setShowColorPicker(!showColorPicker)}>
+                    Text Color <div className={"w-18 h-1"} style={{backgroundColor:ColorNow}}></div> </button>
 
                 <div className="w-px bg-black"></div>
 
@@ -174,8 +177,10 @@ function ToolBar({content,id}){
                         <div key={color} className={'hover:bg-gray-300 rounded transition-all duration-200 w-7 h-7 flex justify-center'}>
                             <button
                                 onClick={() => {
-                                    handleColor(color);
-                                    setShowColorPicker(false);
+                                    document.execCommand('foreColor',false,color)
+                                    setColorNow(color)
+                                    dispatch({type:"COLOR"})
+                                    setShowColorPicker(false)
                                 }}
                                 className="mt-0.5 w-6 h-6 rounded-4xl border border-gray-300 cursor-pointer"
                                 style={{ backgroundColor: color }}
