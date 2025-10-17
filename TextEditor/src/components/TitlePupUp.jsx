@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router"
+import { XMarkIcon } from '@heroicons/react/24/solid'
 
 function TitlePupUp({ onClose }) {
     const [title, setTitle] = useState("");
@@ -24,15 +25,15 @@ function TitlePupUp({ onClose }) {
 
     return (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white p-2 rounded">
-                <button onClick={onClose}>Close</button>
-                <form onSubmit={handleSubmit}>
-                    <input
+            <div className="bg-white p-2 rounded w-80">
+                <button onClick={onClose}><XMarkIcon className={"h-6 w-6 text-red-500 cursor-pointer"}/></button>
+                <form className={"text-center pb-5"} onSubmit={handleSubmit}>
+                    <input className={"border border-blue-500 rounded px-2 mb-2 text-center"}
                         placeholder="Enter Title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                    /><br />
-                    <button type="submit">Create Document</button>
+                    /><br></br>
+                    <button className={"w-50 cursor-pointer bg-blue-400 text-white px-2 rounded"} type="submit">Create Document</button>
                 </form>
             </div>
         </div>
