@@ -33,3 +33,13 @@
     font-size: 10px !important;
     line-height: 1.2 !important;
 }
+.Document-card{
+    @apply rounded  flex flex-col p-2
+    hover:shadow-lg shadow-gray-400 transition-all duration-200
+}
+.StartButton{
+    @apply
+    bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-3 rounded cursor-pointer shadow-md
+    hover:rounded-3xl hover:bg-gradient-to-r hover:from-blue-600  hover:to-blue-800
+    transition-all duration-200 ease-in-out
+}

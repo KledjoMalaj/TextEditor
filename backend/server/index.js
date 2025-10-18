@@ -76,6 +76,22 @@ app.delete('/Document/delete/:id',(req,res)=>{
     })
 })
 
+app.put('/Document/Rename/:id',(req,res)=>{
+    const {id} = req.params
+    const {title} = req.body
+    const  sql = 'UPDATE documents SET title = ? , updated_at = CURRENT_TIMESTAMP WHERE id = ?'
+
+    db.run(sql,[title,id],function (err){
+                if(err){
+            return res.status(500).json({error:err.message})
+        }
+        if (this.changes === 0) {
+            return res.status(404).json({ error: 'Document not found' });
+        }
+        res.json({ id, title, updated: true });
+        })
+})
+
 
 
 app.listen(port,() => {
