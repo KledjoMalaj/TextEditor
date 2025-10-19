@@ -75,7 +75,7 @@ function ToolBar({content,id}){
     }
 
     const handleUpdate = () => {
-        axios.put(`http://localhost:3030/Document/update/${id}`,{
+        axios.put(`http://localhost:3030/Documents/update/${id}`,{
             content
         })
     }

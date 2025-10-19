@@ -8,9 +8,6 @@ function OptionsMenu({documentId, onDelete, onRename}){
     const [rename,setRename] = useState(false)
     const [title,setTitle] = useState('')
 
-    const handleDelete = (id) => {
-        axios.delete(`http://localhost:3030/Document/delete/${id}`)
-    }
     const handleSubmit = (e) => {
         e.preventDefault();
         onRename(documentId, title);

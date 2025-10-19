@@ -6,7 +6,7 @@ import {Bars3Icon} from "@heroicons/react/16/solid/index.js";
 import OptionsMenu from "./OptionsMenu.jsx";
 import { RxPlus } from "react-icons/rx";
 
-function LandingPage() {
+function HomePage() {
     const navigate = useNavigate()
 
     const [documents,setDocuments] = useState([])
@@ -27,12 +27,12 @@ function LandingPage() {
     }
 
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:3030/Document/delete/${id}`)
+        axios.delete(`http://localhost:3030/Documents/delete/${id}`)
         setDocuments(documents.filter(doc => doc.id !== id))
     }
 
     const handleRename = (id,newTitle ) => {
-        axios.put(`http://localhost:3030/Document/Rename/${id}`, {
+        axios.put(`http://localhost:3030/Documents/Rename/${id}`, {
             title:newTitle
         })
         setDocuments(documents.map(doc => doc.id === id ? {...doc,title:newTitle } : doc))
@@ -90,4 +90,4 @@ function LandingPage() {
         </>
     )
 }
-export default LandingPage
+export default HomePage
