@@ -34,7 +34,7 @@ function OptionsMenu({documentId, onDelete, onRename}){
                     </div>
                 </div>
             </>}
-            <div className={"bg-white border border-gray-500 rounded p-2 w-50 h-50 mt-42  shadow-lg"}>
+            <div className={"bg-white border border-gray-500 rounded p-2 w-46 h-50 mt-42  shadow-lg"}>
                 <h1 className={"hover:bg-blue-400 hover:text-white px-5 rounded cursor-pointer mb-1 flex p-2"}
                     onClick={()=>setRename(true)}>
                     <CgRename className={'h-6 w-6 mr-2'}/>Rename</h1>

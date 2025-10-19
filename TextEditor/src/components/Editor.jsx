@@ -67,7 +67,6 @@ function Editor(){
             <div className={'p-2'}>
                 <div ref={editorRef} className={"Editor"} suppressContentEditableWarning contentEditable={'true'} onInput={handleInput}>
                 </div>
-
             </div>
         </>
     )
