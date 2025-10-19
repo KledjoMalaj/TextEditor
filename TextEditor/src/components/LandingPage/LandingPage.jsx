@@ -1,7 +1,13 @@
+import RegisterCard from "./RegisterCard.jsx";
+import LoginCard from "./LoginCard.jsx";
+
 function LandingPage(){
     return(
         <>
-            <h1>hello</h1>
+            <div className={'grid grid-cols-2'} >
+                <RegisterCard/>
+                <LoginCard/>
+            </div>
         </>
     )
 }

@@ -7,7 +7,6 @@ import HomePage from "./components/HomePage.jsx";
 import LandingPage from "./components/LandingPage/LandingPage.jsx";
 
 function App() {
-    const [content, setContent] = useState("");
 
     return (
         <>
