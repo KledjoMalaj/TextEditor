@@ -8,13 +8,14 @@ import { RxPlus } from "react-icons/rx";
 
 function HomePage() {
     const navigate = useNavigate()
-
     const [documents,setDocuments] = useState([])
     const [titlePopUp,setTitlePopUP] = useState(false)
     const [openMenuId, setOpenMenuId] = useState(null);
 
     useEffect(() => {
-        axios.get('http://localhost:3030/Documents/getAll')
+        axios.get('http://localhost:3030/Documents/getAll',{
+            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
+        })
             .then((res)=>setDocuments(res.data))
     }, []);
 

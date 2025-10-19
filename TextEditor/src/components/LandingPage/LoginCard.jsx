@@ -1,7 +1,10 @@
 import {useForm} from "react-hook-form";
 import axios from "axios";
+import {useNavigate} from "react-router";
 
 function LoginCard(){
+    const navigate = useNavigate()
+
     const {
         register,
         handleSubmit,
@@ -9,8 +12,14 @@ function LoginCard(){
     } = useForm()
 
     const onSubmit = (data) => {
-        axios.post(`http://localhost:3030/Users/login/`,data)
-            .then(res=> console.log(res))
+         axios.post(`http://localhost:3030/Users/login/`,data)
+            .then((res)=>{
+                if (res.status === 200){
+                    localStorage.setItem('token', res.data.token);
+                    navigate(`/homePage`)
+                }
+            })
+
     }
 
     return (

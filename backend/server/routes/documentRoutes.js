@@ -1,12 +1,14 @@
 import express from 'express';
 import db from '../db.js';
+import {authenticateToken} from "../middleware/users.js";
 
 const router = express.Router();
 
-router.post('/add', (req, res) => {
+router.post('/add',authenticateToken, (req, res) => {
     const {title} = req.body
-    const sql = 'INSERT INTO documents (title) VALUES (?)';
-    db.run(sql, [title], function (err) {
+    const userId = req.user.id
+    const sql = 'INSERT INTO documents (title, user_id) VALUES (?, ?)'
+    db.run(sql, [title,userId], function (err) {
         if (err) {
             return res.status(500).json({error: err.message})
         }
@@ -28,9 +30,10 @@ router.get('/get/:id', (req, res) => {
     })
 })
 
-router.get('/getAll', (req, res) => {
-    const sql = 'SELECT * FROM documents'
-    db.all(sql, (err, row) => {
+router.get('/getAll',authenticateToken, (req, res) => {
+    const userId = req.user.id
+    const sql = 'SELECT * FROM documents WHERE user_id = ?'
+    db.all(sql,userId, (err, row) => {
         if (err) {
             return res.status(500).json({error: err.message})
         }

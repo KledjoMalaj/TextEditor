@@ -10,7 +10,10 @@ function TitlePupUp({ onClose }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3030/Documents/add', { title })
+        axios.post('http://localhost:3030/Documents/add',
+            { title },
+            {headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}}
+            )
             .then((res) => {
                 setId(res.data.id);
             })
