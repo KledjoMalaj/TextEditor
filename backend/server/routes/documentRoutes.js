@@ -16,10 +16,13 @@ router.post('/add',authenticateToken, (req, res) => {
     })
 })
 
-router.get('/get/:id', (req, res) => {
+router.get('/get/:id', authenticateToken,(req, res) => {
     const {id} = req.params
-    const sql = 'Select * From documents WHERE id = ?'
-    db.get(sql, [id], (err, row) => {
+    const userId = req.user.id
+
+    const sql = 'Select * From documents WHERE id = ? AND user_id = ?'
+
+    db.get(sql, [id,userId], (err, row) => {
         if (err) {
             return res.status(500).json({error: err.message})
         }
@@ -41,12 +44,13 @@ router.get('/getAll',authenticateToken, (req, res) => {
     })
 })
 
-router.put('/update/:id', (req, res) => {
+router.put('/update/:id',authenticateToken, (req, res) => {
     const {id} = req.params;
     const {content} = req.body
+    const userId = req.user.id
 
-    const sql = 'UPDATE documents SET content = ? , updated_at = CURRENT_TIMESTAMP WHERE id = ?'
-    db.run(sql, [content, id], function (err) {
+    const sql = 'UPDATE documents SET content = ? , updated_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?'
+    db.run(sql, [content, id, userId], function (err) {
         if (err) {
             return res.status(500).json({error: err.message})
         }
@@ -57,11 +61,13 @@ router.put('/update/:id', (req, res) => {
     })
 })
 
-router.delete('/delete/:id', (req, res) => {
+router.delete('/delete/:id',authenticateToken, (req, res) => {
     const {id} = req.params
-    const sql = 'DELETE FROM documents WHERE id = ?'
+    const userId = req.user.id
 
-    db.run(sql, [id], function (err) {
+    const sql = 'DELETE FROM documents WHERE id = ? AND user_id = ?'
+
+    db.run(sql, [id,userId], function (err) {
         if (err) {
             return res.status(500).json({error: err.message})
         }
@@ -69,12 +75,13 @@ router.delete('/delete/:id', (req, res) => {
     })
 })
 
-router.put('/Rename/:id', (req, res) => {
+router.put('/Rename/:id',authenticateToken, (req, res) => {
     const {id} = req.params
     const {title} = req.body
-    const sql = 'UPDATE documents SET title = ? , updated_at = CURRENT_TIMESTAMP WHERE id = ?'
+    const userId = req.user.id
+    const sql = 'UPDATE documents SET title = ? , updated_at = CURRENT_TIMESTAMP WHERE id = ? AND user_id = ?'
 
-    db.run(sql, [title, id], function (err) {
+    db.run(sql, [title, id, userId], function (err) {
         if (err) {
             return res.status(500).json({error: err.message})
         }

@@ -7,8 +7,10 @@ db.run(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     content TEXT,
+    user_id INTEGER,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
   )
 `);
 
@@ -19,11 +21,5 @@ db.run(`
      password TEXT NOT NULL ,
      created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`
 )
-
-db.run(`ALTER TABLE documents ADD COLUMN user_id INTEGER`, (err)=>{
-    if(err && !err.message.includes('duplicate column')) {
-        console.error('Error adding user_id column:', err);
-    }
-})
 
 export default db

@@ -77,6 +77,8 @@ function ToolBar({content,id}){
     const handleUpdate = () => {
         axios.put(`http://localhost:3030/Documents/update/${id}`,{
             content
+        },{
+            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
         })
     }
 

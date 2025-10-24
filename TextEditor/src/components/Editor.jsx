@@ -9,7 +9,9 @@ function Editor(){
     const editorRef = useRef(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:3030/Documents/get/${id}`)
+        axios.get(`http://localhost:3030/Documents/get/${id}`,{
+            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
+        })
             .then((res)=>{
                 if (editorRef.current) {
                     editorRef.current.innerHTML = res.data.content;

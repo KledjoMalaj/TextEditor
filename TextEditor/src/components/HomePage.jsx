@@ -37,13 +37,17 @@ function HomePage() {
     }
 
     const handleDelete = (id) => {
-        axios.delete(`http://localhost:3030/Documents/delete/${id}`)
+        axios.delete(`http://localhost:3030/Documents/delete/${id}`,{
+            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
+        })
         setDocuments(documents.filter(doc => doc.id !== id))
     }
 
     const handleRename = (id,newTitle ) => {
         axios.put(`http://localhost:3030/Documents/Rename/${id}`, {
             title:newTitle
+        },{
+            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
         })
         setDocuments(documents.map(doc => doc.id === id ? {...doc,title:newTitle } : doc))
 
