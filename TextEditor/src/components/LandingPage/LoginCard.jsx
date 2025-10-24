@@ -23,7 +23,7 @@ function LoginCard(){
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="flex justify-center">
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md"

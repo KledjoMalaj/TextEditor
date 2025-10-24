@@ -94,82 +94,82 @@ function ToolBar({content,id}){
 
     return (
         <>
-            <div className={'flex rounded bg-white m-2 p-2 shadow-sm gap-2'}>
+            <div className={'flex justify-between  rounded bg-white m-2 p-2 shadow-sm gap-2'}>
 
-                <div className="w-px bg-black"></div>
-                <button className={`ToolBar-Button px-2 ${state.bold ? "bg-blue-300" : "bg-gray-200"}`}
-                        onClick={()=>{
-                            document.execCommand('bold', false, null);
-                            dispatch({type:'BOLD'})
-                        }}>
-                    <b>B</b>
-                </button>
 
-                <button className={`ToolBar-Button px-3 ${state.italic ? "bg-blue-300" : "bg-gray-200"}`}
-                        onClick={()=>{
-                            document.execCommand('italic',false,null)
-                            dispatch({type:"ITALIC"})
-                        }}>
-                    <i>I</i>
-                </button>
+                <div className={"flex gap-2"}>
+                    <button className={`ToolBar-Button px-2 ${state.bold ? "bg-blue-300" : "bg-gray-200"}`}
+                            onClick={()=>{
+                                document.execCommand('bold', false, null);
+                                dispatch({type:'BOLD'})
+                            }}>
+                        <b>B</b>
+                    </button>
 
-                <button className={`ToolBar-Button px-2 ${state.underline ? "bg-blue-300" : "bg-gray-200"}`}
-                        onClick={()=>{
-                            document.execCommand('underline',false,null)
-                            dispatch({type:"UNDERLINE"})
-                        }}>
-                    <u>U</u>
-                </button>
+                    <button className={`ToolBar-Button px-3 ${state.italic ? "bg-blue-300" : "bg-gray-200"}`}
+                            onClick={()=>{
+                                document.execCommand('italic',false,null)
+                                dispatch({type:"ITALIC"})
+                            }}>
+                        <i>I</i>
+                    </button>
 
-                <button className={`ToolBar-Button px-2`}
-                        onClick={() => setShowColorPicker(!showColorPicker)}>
-                    Text Color <div className={"w-18 h-1"} style={{backgroundColor:ColorNow}}></div> </button>
-
-                <div className="w-px bg-black"></div>
-
-                <div className={"ToolBar-Button pr-2"}>
-                    <select className={"innerElement"} onChange={handleHeading}>
-                        <option value={'p'}>Normal text </option>
-                        <option value={'h1'}>Heading 1</option>
-                        <option value={'h2'}>Heading 2</option>
-                        <option value={'h3'}>Heading 3</option>
-                    </select>
+                    <button className={`ToolBar-Button px-2 ${state.underline ? "bg-blue-300" : "bg-gray-200"}`}
+                            onClick={()=>{
+                                document.execCommand('underline',false,null)
+                                dispatch({type:"UNDERLINE"})
+                            }}>
+                        <u>U</u>
+                    </button>
                 </div>
 
-                <div className={'ToolBar-Button pr-2'}>
-                    <select className={'innerElement'}  onChange={handleFont}>
-                        <option value={'Arial'}>Arial</option>
-                        {fontNames && fontNames.map(name =>
-                            <option key={name} value={name}> {name}</option>
-                        )}
-                    </select>
+                <div className={"flex gap-2"}>
+                    <button className={`ToolBar-Button px-2 bg-gray-200 py-1`}
+                            onClick={() => setShowColorPicker(!showColorPicker)}>
+                        Text Color <div className={"w-18 h-1"} style={{backgroundColor:ColorNow}}></div> </button>
+
+
+
+                        <select className={"ToolBar-Button px-2 bg-gray-200"} onChange={handleHeading}>
+                            <option value={'p'}>Normal text </option>
+                            <option value={'h1'}>Heading 1</option>
+                            <option value={'h2'}>Heading 2</option>
+                            <option value={'h3'}>Heading 3</option>
+                        </select>
+
+
+                        <select className={'ToolBar-Button px-2 bg-gray-200'}  onChange={handleFont}>
+                            <option value={'Arial'}>Arial</option>
+                            {fontNames && fontNames.map(name =>
+                                <option key={name} value={name}> {name}</option>
+                            )}
+                        </select>
+
+                    <div className={"flex"}>
+                        <button className={"ToolBar-Button px-3 bg-gray-200"} onClick={handleDecrement}><b>-</b></button>
+                        <h1 className={'mx-2 mt-1'}>{fontSize}</h1>
+                        <button className={"ToolBar-Button px-3 bg-gray-200"} onClick={handleIncrement}><b>+</b></button>
+                    </div>
+
+                        <select className={'ToolBar-Button  px-2 bg-gray-200'} onChange={handleAlign}>
+                            <option value={'justifyLeft'}>Left</option>
+                            <option value={'justifyCenter'}>Center</option>
+                            <option value={'justifyRight'}>Right</option>
+                            <option value={'justifyFull'}>Justify</option>
+                        </select>
+
                 </div>
 
+                <div className={'flex'}>
 
-                <div className="w-px bg-black"></div>
+                        <button className={'ToolBar-Button px-2  bg-gray-200'} onClick={handleUpdate}>Update</button>
 
-                <div className={"flex"}>
-                    <button className={"ToolBar-Button px-3"} onClick={handleDecrement}><b>-</b></button>
-                    <h1 className={'mx-2 mt-1'}>{fontSize}</h1>
-                    <button className={"ToolBar-Button px-3"} onClick={handleIncrement}><b>+</b></button>
                 </div>
 
-                <div className="w-px bg-black"></div>
-
-                <div className={"ToolBar-Button pr-2"}>
-                    <select className={'innerElement'} onChange={handleAlign}>
-                        <option value={'justifyLeft'}>Left</option>
-                        <option value={'justifyCenter'}>Center</option>
-                        <option value={'justifyRight'}>Right</option>
-                        <option value={'justifyFull'}>Justify</option>
-                    </select>
-                </div>
-
-                <div>
-                    <button className={'ToolBar-Button px-2 py-1'} onClick={handleUpdate}>Update</button>
-                </div>
 
             </div>
+
+
 
             {showColorPicker && (
                 <div className="absolute left-0 ml-42 grid grid-cols-7 gap-2 p-1 border rounded bg-white w-60 shadow-lg z-50">

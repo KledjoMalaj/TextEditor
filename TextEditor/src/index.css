@@ -43,3 +43,9 @@
     hover:rounded-3xl hover:bg-gradient-to-r hover:from-blue-600  hover:to-blue-800
     transition-all duration-200 ease-in-out
 }
+@layer utilities {
+    .text-border {
+        -webkit-text-stroke: 2px black;
+    }
+}
+
