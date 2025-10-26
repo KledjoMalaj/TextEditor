@@ -1,6 +1,7 @@
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useNavigate} from "react-router";
+import { API_URL } from "../../config.js";
 
 function LoginCard(){
     const navigate = useNavigate()
@@ -13,7 +14,7 @@ function LoginCard(){
 
     const onSubmit = async (data) => {
         try {
-            const res = await axios.post(`http://localhost:3030/Users/login/`, data)
+            const res = await axios.post(`${API_URL}/Users/login/`, data)
                     if (res.status === 200) {
                         localStorage.setItem('token', res.data.token);
                         navigate(`/homePage`)

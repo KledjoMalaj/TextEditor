@@ -2,6 +2,7 @@ import {useEffect, useRef, useState} from "react";
 import ToolBar from "./ToolBar.jsx";
 import {useParams} from "react-router";
 import axios from "axios";
+import { API_URL } from "../config.js";
 
 function Editor(){
     const [content,setContent] = useState("")
@@ -9,7 +10,7 @@ function Editor(){
     const editorRef = useRef(null);
 
     useEffect(() => {
-        axios.get(`http://localhost:3030/Documents/get/${id}`,{
+        axios.get(`${API_URL}/Documents/get/${id}`,{
             headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
         })
             .then((res)=>{

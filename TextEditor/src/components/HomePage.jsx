@@ -7,6 +7,7 @@ import OptionsMenu from "./OptionsMenu.jsx";
 import { RxPlus } from "react-icons/rx";
 import { FaRegUser } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
+import { API_URL } from "../config.js";
 
 function HomePage() {
     const navigate = useNavigate()
@@ -21,10 +22,10 @@ function HomePage() {
         const fetchData = async () => {
             try {
                 const [docsRes, userRes] = await Promise.all([
-                    axios.get("http://localhost:3030/Documents/getAll", {
+                    axios.get(`${API_URL}/Documents/getAll`, {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
-                    axios.get("http://localhost:3030/Users/me", {
+                    axios.get(`${API_URL}/Users/me`, {
                         headers: { Authorization: `Bearer ${token}` },
                     }),
                 ]);
@@ -52,7 +53,7 @@ function HomePage() {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`http://localhost:3030/Documents/delete/${id}`, {
+            await axios.delete(`${API_URL}/Documents/delete/${id}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
             });
 
@@ -65,7 +66,7 @@ function HomePage() {
 
     const handleRename = async (id,newTitle ) => {
         try {
-            await axios.put(`http://localhost:3030/Documents/Rename/${id}`, {
+            await axios.put(`${API_URL}/Documents/Rename/${id}`, {
                 title: newTitle
             }, {
                 headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}

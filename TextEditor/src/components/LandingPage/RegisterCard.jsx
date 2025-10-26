@@ -1,5 +1,6 @@
 import {useForm} from "react-hook-form";
 import axios from "axios";
+import { API_URL } from "../../config.js";
 
 function RegisterCard(){
     const {
@@ -10,7 +11,7 @@ function RegisterCard(){
 
     const onSubmit = async (data) => {
         try {
-           await axios.post(`http://localhost:3030/Users/register/`, data)
+           await axios.post(`${API_URL}/Users/register/`, data)
         }catch (err){
             alert('Register Failed')
         }

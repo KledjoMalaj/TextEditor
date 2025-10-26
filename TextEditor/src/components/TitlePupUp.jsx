@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router"
 import { XMarkIcon } from '@heroicons/react/24/solid'
+import { API_URL } from "../config.js";
 
 function TitlePupUp({ onClose }) {
     const [title, setTitle] = useState("");
@@ -10,7 +11,7 @@ function TitlePupUp({ onClose }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:3030/Documents/add',
+        axios.post(`${API_URL}/Documents/add`,
             { title },
             {headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}}
             )

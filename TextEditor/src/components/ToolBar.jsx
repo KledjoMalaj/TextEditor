@@ -1,6 +1,7 @@
 import {useEffect, useReducer, useState} from "react";
 import {FetchFonts} from "../apis.js";
 import axios from "axios";
+import { API_URL } from "../config.js";
 
 
 function ToolBar({content,id}){
@@ -77,7 +78,7 @@ function ToolBar({content,id}){
     const handleUpdate = async () => {
         try {
             await axios.put(
-                `http://localhost:3030/Documents/update/${id}`,
+                `${API_URL}/Documents/update/${id}`,
                 { content },
                 {
                     headers: {
