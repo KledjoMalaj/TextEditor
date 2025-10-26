@@ -40,7 +40,7 @@ router.post('/login',(req,res)=>{
             return res.status(500).json({error:err.message})
         }
         if(!user){
-            return res.status(404).json({error:"User nor Found"})
+            return res.status(404).json({error:"User not found"})
         }
 
         const isValid = await bcrypt.compare(password, user.password)

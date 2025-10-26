@@ -11,9 +11,14 @@ function RegisterCard(){
 
     const onSubmit = async (data) => {
         try {
-           await axios.post(`${API_URL}/Users/register/`, data)
+            const res = await axios.post(`${API_URL}/Users/register/`, data)
+            if (res.status === 200) {
+                alert('Registration successful! Please login with your credentials.')
+            }
         }catch (err){
-            alert('Register Failed')
+            console.error('Registration error:', err);
+            const errorMessage = err.response?.data?.error || 'Registration failed. Please try again.';
+            alert(errorMessage);
         }
     }
 
