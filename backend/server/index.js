@@ -8,9 +8,9 @@ const app = express();
 const port = process.env.PORT || 3030;
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || '*',
+    origin: 'https://text-editor-jade-six.vercel.app',
     credentials: true
-}))
+}));
 
 app.use(express.json());
 
