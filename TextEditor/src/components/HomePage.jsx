@@ -16,16 +16,30 @@ function HomePage() {
     const [user,setUser] = useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3030/Documents/getAll',{
-            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
-        })
-            .then((res)=>setDocuments(res.data))
+        const token = localStorage.getItem("token");
 
-        axios.get('http://localhost:3030/Users/me', {
-            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
-        })
-            .then((res)=>setUser(res.data))
+        const fetchData = async () => {
+            try {
+                const [docsRes, userRes] = await Promise.all([
+                    axios.get("http://localhost:3030/Documents/getAll", {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }),
+                    axios.get("http://localhost:3030/Users/me", {
+                        headers: { Authorization: `Bearer ${token}` },
+                    }),
+                ]);
+
+                setDocuments(docsRes.data);
+                setUser(userRes.data);
+            } catch (err) {
+                console.error("Error fetching data:", err);
+                alert("Failed to load data");
+            }
+        };
+
+        fetchData();
     }, []);
+
 
 
     const handleOpenDoc = (id)=> {
@@ -36,22 +50,36 @@ function HomePage() {
         setTitlePopUP(true)
     }
 
-    const handleDelete = (id) => {
-        axios.delete(`http://localhost:3030/Documents/delete/${id}`,{
-            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
-        })
-        setDocuments(documents.filter(doc => doc.id !== id))
-    }
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:3030/Documents/delete/${id}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+            });
 
-    const handleRename = (id,newTitle ) => {
-        axios.put(`http://localhost:3030/Documents/Rename/${id}`, {
-            title:newTitle
-        },{
-            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
-        })
-        setDocuments(documents.map(doc => doc.id === id ? {...doc,title:newTitle } : doc))
+            setDocuments(prevDocs => prevDocs.filter(doc => doc.id !== id));
+        } catch (err) {
+            console.error(err);
+            alert('Failed to Delete')
+        }
+    };
 
-        setOpenMenuId(null)
+    const handleRename = async (id,newTitle ) => {
+        try {
+            await axios.put(`http://localhost:3030/Documents/Rename/${id}`, {
+                title: newTitle
+            }, {
+                headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+            })
+            setDocuments(prevDocs =>
+                prevDocs.map(doc =>
+                    doc.id === id ? { ...doc, title: newTitle } : doc
+                )
+            );
+
+            setOpenMenuId(null)
+        }catch (err){
+            alert('Failed to Rename')
+        }
     }
 
     const handleLogOut = () => {

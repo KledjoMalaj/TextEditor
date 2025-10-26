@@ -19,6 +19,7 @@ function TitlePupUp({ onClose }) {
             })
             .catch((err) => {
                 console.error(err);
+                alert("Failed to create document");
             });
     };
 

@@ -11,14 +11,17 @@ function LoginCard(){
         formState:{errors}
     } = useForm()
 
-    const onSubmit = (data) => {
-         axios.post(`http://localhost:3030/Users/login/`,data)
-            .then((res)=>{
-                if (res.status === 200){
-                    localStorage.setItem('token', res.data.token);
-                    navigate(`/homePage`)
-                }
-            })
+    const onSubmit = async (data) => {
+        try {
+            const res = await axios.post(`http://localhost:3030/Users/login/`, data)
+                    if (res.status === 200) {
+                        localStorage.setItem('token', res.data.token);
+                        navigate(`/homePage`)
+                    }
+        }catch (err){
+            console.error('Login error:', err);
+            alert('Failed to LogIn')
+        }
 
     }
 

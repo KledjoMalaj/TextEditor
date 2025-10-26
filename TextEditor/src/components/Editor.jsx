@@ -18,10 +18,12 @@ function Editor(){
 
                     extractAndLoadFonts(res.data.content);
                 }
-
                 setContent(res.data.content);
             })
-            .catch(err => console.log('Error loading document:', err));
+            .catch(err => {
+                console.log('Error loading document:', err)
+                alert('Error Loading Document')
+            });
     }, [id]);
 
     const extractAndLoadFonts = (html) => {
@@ -57,8 +59,6 @@ function Editor(){
     const handleInput = (e) => {
         setContent(e.target.innerHTML)
     }
-
-
 
     return(
         <>

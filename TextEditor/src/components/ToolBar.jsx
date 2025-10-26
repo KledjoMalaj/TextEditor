@@ -74,13 +74,23 @@ function ToolBar({content,id}){
         document.execCommand(value,false,null)
     }
 
-    const handleUpdate = () => {
-        axios.put(`http://localhost:3030/Documents/update/${id}`,{
-            content
-        },{
-            headers:{'Authorization':`Bearer ${localStorage.getItem('token')}`}
-        })
-    }
+    const handleUpdate = async () => {
+        try {
+            await axios.put(
+                `http://localhost:3030/Documents/update/${id}`,
+                { content },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                }
+            );
+
+        } catch (err) {
+            console.error(err);
+            alert("Update unsuccessful ");
+        }
+    };
 
     useEffect(() => {
 

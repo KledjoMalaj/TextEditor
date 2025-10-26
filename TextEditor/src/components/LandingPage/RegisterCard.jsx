@@ -8,8 +8,12 @@ function RegisterCard(){
         formState:{errors}
     } = useForm()
 
-    const onSubmit = (data) => {
-        axios.post(`http://localhost:3030/Users/register/`, data)
+    const onSubmit = async (data) => {
+        try {
+           await axios.post(`http://localhost:3030/Users/register/`, data)
+        }catch (err){
+            alert('Register Failed')
+        }
     }
 
     return (
