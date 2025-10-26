@@ -90,51 +90,71 @@ function HomePage() {
 
     return(
         <>
-            {titlePopUp &&  <TitlePupUp onClose={()=>setTitlePopUP(false)}/>}
+            {titlePopUp && <TitlePupUp onClose={()=>setTitlePopUP(false)}/>}
 
-            <div className={'flex justify-between my-2 mx-3 mt-5 mb-4'}>
+            {/* Header Section - Responsive */}
+            <div className={'flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0 my-2 mx-3 mt-5 mb-4'}>
 
-                    <h1 className={'flex gap-2 bg-blue-700 rounded p-3 px-5  mt-1 mb-2 shadow-lg text-lg font-semibold text-white'}>
-                        <FaRegUser className={'h-6 w-6 text-white'}/>{user.email}
-                    </h1>
+                {/* User Info */}
+                <h1 className={'flex gap-2 bg-blue-700 rounded p-3 px-5 shadow-lg text-base sm:text-lg font-semibold text-white w-full sm:w-auto justify-center sm:justify-start'}>
+                    <FaRegUser className={'h-5 w-5 sm:h-6 sm:w-6 text-white'}/>
+                    <span className={'truncate max-w-[150px] sm:max-w-none'}>{user.email}</span>
+                </h1>
 
-                <div className={'flex bg-white py-2 px-6 rounded shadow-lg'}>
-                    <h1 className={'pl-2 h-6 w-30 mt-2 font-semibold text-xl'}>Start New </h1>
+                {/* Start New Button */}
+                <div className={'flex bg-white py-2 px-4 sm:px-6 rounded shadow-lg w-full sm:w-auto justify-center'}>
+                    <h1 className={'pl-2 h-6 w-30 mt-2 font-semibold text-lg sm:text-xl'}>Start New</h1>
                     <button className={'StartButton'}
                             onClick={handleStartNew}>
                         <RxPlus className={'h-6 w-6'}/>
                     </button>
                 </div>
 
-                    <button className={'text-lg font-semibold text-white flex gap-2 cursor-pointer bg-red-500 rounded shadow-lg p-3 px-5 mt-1 mb-2 hover:bg-red-600 hover:shadow-xl transition-all duration-150'}
+                {/* Logout Button */}
+                <button
+                    className={'text-base sm:text-lg font-semibold text-white flex gap-2 cursor-pointer bg-red-500 rounded shadow-lg p-3 px-5 hover:bg-red-600 hover:shadow-xl transition-all duration-150 w-full sm:w-auto justify-center'}
                     onClick={handleLogOut}>
-                        Log Out<RiLogoutBoxRLine className={'h-7 w-7 '}/>
-                    </button>
+                    Log Out<RiLogoutBoxRLine className={'h-6 w-6 sm:h-7 sm:w-7'}/>
+                </button>
 
             </div>
 
-            <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 gap-6 mx-3 bg-white rounded p-5 border">
+            {/* Documents Grid - Responsive */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 mx-3 bg-white rounded p-3 sm:p-5 border">
                 {documents && documents.map(i => (
                     <div key={i.id} className="Document-card">
                         <div className={"Document-card2"}>
-                            <div className="bg-blue-500 flex justify-between items-center p-3 rounded-t">
-                                <h1 className="text-white text-lg font-semibold">{i.title}</h1>
+                            {/* Document Header */}
+                            <div className="bg-blue-500 flex justify-between items-center p-2 sm:p-3 rounded-t">
+                                <h1 className="text-white text-base sm:text-lg font-semibold truncate flex-1 mr-2">
+                                    {i.title}
+                                </h1>
                                 <button
-                                    className={"cursor-pointer hover:bg-blue-700 px-3 py-2 rounded transition-all duration-150"}
+                                    className={"cursor-pointer hover:bg-blue-700 px-2 sm:px-3 py-2 rounded transition-all duration-150 flex-shrink-0"}
                                     onClick={() => setOpenMenuId(openMenuId === i.id ? null : i.id)}
                                 >
-                                    <Bars3Icon className={"h-6 w-6 text-white "}/>
+                                    <Bars3Icon className={"h-5 w-5 sm:h-6 sm:w-6 text-white"}/>
                                 </button>
 
-                                <div className={"absolute"}>
-                                    {openMenuId === i.id && <OptionsMenu documentId={i.id} onDelete={()=>handleDelete(i.id)} onRename={handleRename} />}
+                                {/* Options Menu */}
+                                <div className={"absolute z-50"}>
+                                    {openMenuId === i.id && (
+                                        <OptionsMenu
+                                            documentId={i.id}
+                                            onDelete={()=>handleDelete(i.id)}
+                                            onRename={handleRename}
+                                        />
+                                    )}
                                 </div>
                             </div>
 
-
+                            {/* Document Preview */}
                             <div
                                 onClick={() => handleOpenDoc(i.id)}
-                                className="bg-white flex-grow cursor-pointer p-4 overflow-hidden h-[270px] document-preview border-1 hover:border-blue-600 "
+                                className="bg-white flex-grow cursor-pointer p-3 sm:p-4 overflow-hidden
+                                   h-[200px] sm:h-[250px] md:h-[270px]
+                                   document-preview border hover:border-blue-600 transition-all duration-150
+                                   text-sm sm:text-base"
                             >
                                 <div
                                     dangerouslySetInnerHTML={{ __html: i.content }}
@@ -144,7 +164,6 @@ function HomePage() {
                     </div>
                 ))}
             </div>
-
         </>
     )
 }

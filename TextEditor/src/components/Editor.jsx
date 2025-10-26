@@ -63,12 +63,18 @@ function Editor(){
 
     return(
         <>
-            <div className={"sticky top-0 pt-1"}>
+            <div className={"sticky top-0 pt-1 z-10"}>
                 <ToolBar content={content} id={id}/>
             </div>
 
-            <div className={'p-2'}>
-                <div ref={editorRef} className={"Editor"} suppressContentEditableWarning contentEditable={'true'} onInput={handleInput}>
+            <div className={'p-2 sm:p-4 md:p-8 flex justify-center items-start min-h-screen'}>
+                <div
+                    ref={editorRef}
+                    className={"Editor"}
+                    suppressContentEditableWarning
+                    contentEditable={'true'}
+                    onInput={handleInput}
+                >
                 </div>
             </div>
         </>
