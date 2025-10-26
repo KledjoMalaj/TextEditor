@@ -14,7 +14,7 @@ function LoginCard(){
 
     const onSubmit = async (data) => {
         try {
-            const res = await axios.post(`${API_URL}/Users/login`, data)
+            const res = await axios.post(`${API_URL}/Users/login/`, data)
                     if (res.status === 200) {
                         localStorage.setItem('token', res.data.token);
                         navigate(`/homePage`)
