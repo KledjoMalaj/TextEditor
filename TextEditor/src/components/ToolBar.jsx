@@ -2,13 +2,16 @@ import {useEffect, useReducer, useState} from "react";
 import {FetchFonts} from "../apis.js";
 import axios from "axios";
 import { API_URL } from "../config.js";
+import DownloadOptions from "./DownloadOptions.jsx";
 
 
-function ToolBar({content,id}){
+function ToolBar({content,id,title}){
+
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [fontSize,setFontSize] = useState(3)
     const [fontNames,setFontNames] = useState([])
     const [ColorNow,setColorNow] = useState('black')
+    const [ShowDownloadOptions,setShowDownloadOptions] = useState(false)
 
     const [state,dispatch] = useReducer((state,action)=>{
         switch (action.type){
@@ -107,8 +110,11 @@ function ToolBar({content,id}){
 
     return (
         <>
-            <div className={'md:hidden bg-white m-2 p-2 shadow-sm rounded'}>
-                <div className={'flex gap-2 mb-2 overflow-x-auto pb-2'}>
+
+
+            <div className={'flex flex-wrap justify-between items-center rounded bg-white m-2 p-2 shadow-sm gap-2 md:gap-4'}>
+
+                <div className={"flex gap-2 order-1 "}>
                     <button className={`px-3 py-2 rounded cursor-pointer ${state.bold ? "bg-blue-500 text-white" : "bg-gray-200"}`}
                             onClick={()=>{
                                 document.execCommand('bold', false, null);
@@ -133,87 +139,28 @@ function ToolBar({content,id}){
                         <u>U</u>
                     </button>
 
-                    <button className={`px-3 py-2 rounded bg-gray-200 flex items-center gap-1 cursor-pointer`}
-                            onClick={() => setShowColorPicker(!showColorPicker)}>Text color
-                        <div className={"ml-1 w-4 h-4 rounded border"} style={{backgroundColor:ColorNow}}></div>
+                    <div className={'bg-gray-200 px-3 py-2 rounded cursor-pointer hover:bg-gray-300 text-sm sm:text-base sm:w-auto'}
+                    onClick={()=>setShowDownloadOptions(!ShowDownloadOptions)}>
+                        <h1>Download</h1>
+                    </div>
+                </div>
+
+                <div className={"flex flex-wrap gap-2 items-center order-2 md:order-2 w-full md:w-auto"}>
+                    <button className={`px-3 py-2 rounded bg-gray-200 flex items-center gap-2 cursor-pointer whitespace-nowrap`}
+                            onClick={() => setShowColorPicker(!showColorPicker)}>
+                        <span className="hidden sm:inline">Text Color</span>
+                        <span className="sm:hidden">Color</span>
+                        <div className={"w-6 h-1.5 rounded"} style={{backgroundColor:ColorNow}}></div>
                     </button>
 
-                    <select className={"px-2 py-2 rounded bg-gray-200 text-sm cursor-pointer"} onChange={handleHeading}>
-                        <option value={'p'}>Normal Text </option>
+                    <select className={"px-2 sm:px-3 py-2 rounded bg-gray-200 cursor-pointer text-sm sm:text-base"} onChange={handleHeading}>
+                        <option value={'p'}>Normal</option>
                         <option value={'h1'}>H1</option>
                         <option value={'h2'}>H2</option>
                         <option value={'h3'}>H3</option>
                     </select>
-                </div>
 
-                <div className={'flex gap-2 overflow-x-auto'}>
-                    <select className={'px-2 py-2 rounded bg-gray-200 text-xs cursor-pointer'} onChange={handleFont}>
-                        <option value={'Arial'}>Arial</option>
-                        {fontNames && fontNames.slice(0, 20).map(name =>
-                            <option key={name} value={name}>{name}</option>
-                        )}
-                    </select>
-
-                    <div className={"flex items-center bg-gray-200 rounded px-2"}>
-                        <button className={"px-2 cursor-pointer"} onClick={handleDecrement}>-</button>
-                        <span className={'px-2 text-sm'}>{fontSize}</span>
-                        <button className={"px-2 cursor-pointer"} onClick={handleIncrement}>+</button>
-                    </div>
-
-                    <select className={'px-2 py-2 rounded bg-gray-200 text-xs cursor-pointer'} onChange={handleAlign}>
-                        <option value={'justifyLeft'}>Left</option>
-                        <option value={'justifyCenter'}>Center</option>
-                        <option value={'justifyRight'}>Right</option>
-                    </select>
-
-                    <button className={'px-4 py-2 rounded bg-blue-500 text-white font-medium whitespace-nowrap cursor-pointer'} onClick={handleUpdate}>
-                        Save
-                    </button>
-                </div>
-            </div>
-
-            <div className={'hidden md:flex justify-between items-center rounded bg-white m-2 p-2 shadow-sm gap-4'}>
-
-                <div className={"flex gap-2"}>
-                    <button className={`px-3 py-2 rounded cursor-pointer ${state.bold ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-                            onClick={()=>{
-                                document.execCommand('bold', false, null);
-                                dispatch({type:'BOLD'})
-                            }}>
-                        <b>B</b>
-                    </button>
-
-                    <button className={`px-3 py-2 rounded cursor-pointer ${state.italic ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-                            onClick={()=>{
-                                document.execCommand('italic',false,null)
-                                dispatch({type:"ITALIC"})
-                            }}>
-                        <i>I</i>
-                    </button>
-
-                    <button className={`px-3 py-2 rounded cursor-pointer ${state.underline ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-                            onClick={()=>{
-                                document.execCommand('underline',false,null)
-                                dispatch({type:"UNDERLINE"})
-                            }}>
-                        <u>U</u>
-                    </button>
-                </div>
-
-                <div className={"flex gap-2 items-center"}>
-                    <button className={`px-3 py-2 rounded bg-gray-200 flex items-center gap-2 cursor-pointer`}
-                            onClick={() => setShowColorPicker(!showColorPicker)}>
-                        Text Color <div className={"w-6 h-1.5 rounded"} style={{backgroundColor:ColorNow}}></div>
-                    </button>
-
-                    <select className={"px-3 py-2 rounded bg-gray-200 cursor-pointer"} onChange={handleHeading}>
-                        <option value={'p'}>Normal</option>
-                        <option value={'h1'}>Heading 1</option>
-                        <option value={'h2'}>Heading 2</option>
-                        <option value={'h3'}>Heading 3</option>
-                    </select>
-
-                    <select className={'px-3 py-2 rounded bg-gray-200 cursor-pointer'} onChange={handleFont}>
+                    <select className={'px-2 sm:px-3 py-2 rounded bg-gray-200 cursor-pointer text-sm sm:text-base max-w-[120px] sm:max-w-none'} onChange={handleFont}>
                         <option value={'Arial'}>Arial</option>
                         {fontNames && fontNames.map(name =>
                             <option key={name} value={name}>{name}</option>
@@ -221,20 +168,22 @@ function ToolBar({content,id}){
                     </select>
 
                     <div className={"flex items-center bg-gray-200 rounded"}>
-                        <button className={"px-3 py-2 hover:bg-gray-300 cursor-pointer"} onClick={handleDecrement}>-</button>
-                        <span className={'px-3 font-medium'}>{fontSize}</span>
-                        <button className={"px-3 py-2 hover:bg-gray-300 cursor-pointer"} onClick={handleIncrement}>+</button>
+                        <button className={"px-2 sm:px-3 py-2 hover:bg-gray-300 cursor-pointer"} onClick={handleDecrement}>-</button>
+                        <span className={'px-2 sm:px-3 font-medium text-sm sm:text-base'}>{fontSize}</span>
+                        <button className={"px-2 sm:px-3 py-2 hover:bg-gray-300 cursor-pointer"} onClick={handleIncrement}>+</button>
                     </div>
 
-                    <select className={'px-3 py-2 rounded bg-gray-200 cursor-pointer'} onChange={handleAlign}>
+                    <select className={'px-2 sm:px-3 py-2 rounded bg-gray-200 cursor-pointer text-sm sm:text-base'} onChange={handleAlign}>
                         <option value={'justifyLeft'}>Left</option>
                         <option value={'justifyCenter'}>Center</option>
                         <option value={'justifyRight'}>Right</option>
                         <option value={'justifyFull'}>Justify</option>
                     </select>
+
+
                 </div>
 
-                <button className={'px-6 py-2 rounded bg-blue-500 text-white font-medium hover:bg-blue-600 cursor-pointer'} onClick={handleUpdate}>
+                <button className={'px-4 sm:px-6 py-2 rounded bg-blue-500 text-white font-medium hover:bg-blue-600 cursor-pointer order-3 w-full sm:w-auto'} onClick={handleUpdate}>
                     Save
                 </button>
             </div>
@@ -262,6 +211,9 @@ function ToolBar({content,id}){
                     ))}
                 </div>
             )}
+
+
+            {ShowDownloadOptions && <DownloadOptions title={title} onClose={()=>setShowDownloadOptions(false)}/>}
 
         </>
     )

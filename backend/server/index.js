@@ -8,7 +8,7 @@ const app = express();
 const port = process.env.PORT || 3030;
 
 app.use(cors({
-    origin: 'https://text-editor-jade-six.vercel.app',
+    origin: ['https://text-editor-jade-six.vercel.app','http://localhost:5173'],
     credentials: true
 }));
 

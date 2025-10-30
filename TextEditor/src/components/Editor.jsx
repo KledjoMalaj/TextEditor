@@ -6,6 +6,7 @@ import { API_URL } from "../config.js";
 
 function Editor(){
     const [content,setContent] = useState("")
+    const [title,setTitle] = useState("")
     const {id} = useParams()
     const editorRef = useRef(null);
 
@@ -20,6 +21,7 @@ function Editor(){
                     extractAndLoadFonts(res.data.content);
                 }
                 setContent(res.data.content);
+                setTitle(res.data.title)
             })
             .catch(err => {
                 console.log('Error loading document:', err)
@@ -64,7 +66,7 @@ function Editor(){
     return(
         <>
             <div className={"sticky top-0 pt-1 z-10"}>
-                <ToolBar content={content} id={id}/>
+                <ToolBar content={content} id={id} title={title}/>
             </div>
 
             <div className={'p-2 sm:p-4 md:p-8 flex justify-center items-start min-h-screen'}>
