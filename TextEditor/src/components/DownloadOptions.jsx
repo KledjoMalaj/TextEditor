@@ -1,4 +1,5 @@
 import jsPDF from "jspdf";
+import html2canvas from "html2canvas-pro";
 
 function DownloadOptions({onClose,title}){
 
@@ -10,36 +11,30 @@ function DownloadOptions({onClose,title}){
             return;
         }
 
-        try {
-            const textContent = editorElement.innerText || editorElement.textContent;
-
-            if (!textContent.trim()) {
-                alert('Document is empty');
-                return;
-            }
+        html2canvas(editorElement).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF({
                 orientation: 'portrait',
                 unit: 'mm',
                 format: 'a4'
             });
 
-            pdf.setFontSize(12);
-
             const pageWidth = 210;
+            const pageHeight = 297;
             const margins = 20;
-            const maxWidth = pageWidth - (margins * 2);
+            const imgProps = pdf.getImageProperties(imgData);
+            const pdfWidth = pageWidth - margins * 2;
+            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-            const lines = pdf.splitTextToSize(textContent, maxWidth);
-
-            pdf.text(lines, margins, margins);
-
+            pdf.addImage(imgData, 'PNG', margins, margins, pdfWidth, pdfHeight);
             pdf.save(`${title}.pdf`);
 
-        } catch (error) {
+            onClose();
+        }).catch(error => {
             console.error('Error generating PDF:', error);
             alert('Failed to generate PDF');
-        }
-        onClose()
+            onClose();
+        });
     }
 
     return(
