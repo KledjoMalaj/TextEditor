@@ -25,7 +25,15 @@ function OptionsMenu({documentId, onDelete, onRename}){
         axios.post(`${API_URL}/ShareDocuments/documents/${documentId}/share`,{role,expiration},
             {
                 headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
-            }).then(res=>console.log(res.data))
+            }).then(res => {
+            const shareURL = res.data.shareURL
+            navigator.clipboard.writeText(shareURL).then(() => {
+                console.log('Link copied to clipboard!')
+                setShare(false)
+            }).catch(err => {
+                console.error('Failed to copy link: ', err)
+            })
+        })
     }
 
     return (
@@ -50,7 +58,7 @@ function OptionsMenu({documentId, onDelete, onRename}){
                 <>
                 <div className={'fixed inset-0 bg-black/50 flex items-center justify-center z-50'}>
                     <div className="bg-white p-2 rounded w-80">
-                        <button onClick={()=>setRename(false)}><XMarkIcon className={"h-6 w-6 text-red-500 cursor-pointer"}/></button>
+                        <button onClick={()=>setShare(false)}><XMarkIcon className={"h-6 w-6 text-red-500 cursor-pointer"}/></button>
                         <form className={"text-center pb-5"} onSubmit={handleShare}>
                             <input className={"border border-blue-500 rounded px-2 mb-2 text-center"}
                                    placeholder="Enter role"
@@ -68,6 +76,7 @@ function OptionsMenu({documentId, onDelete, onRename}){
                 </div>
             </>
             }
+
 
             <div className={"bg-white border border-gray-500 rounded p-3 w-46 h-50 mt-42  shadow-lg"}>
                 <h1 className={"hover:bg-blue-400 hover:text-white px-5 rounded cursor-pointer mb-1 flex p-2"}
