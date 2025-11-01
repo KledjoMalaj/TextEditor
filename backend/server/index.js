@@ -3,6 +3,7 @@ import express from "express"
 import cors from "cors"
 import documentRoutes from './routes/documentRoutes.js';
 import usersRoutes from "./routes/usersRoutes.js";
+import sharedDocumentsRoutes from "./routes/sharedDocumentsRoutes.js";
 
 const app = express();
 const port = process.env.PORT || 3030;
@@ -16,6 +17,7 @@ app.use(express.json());
 
 app.use('/Documents', documentRoutes);
 app.use('/Users', usersRoutes)
+app.use('/ShareDocuments', sharedDocumentsRoutes)
 
 app.listen(port, () => {
     console.log(`Server running On port => ${port}`)

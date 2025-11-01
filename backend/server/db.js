@@ -22,4 +22,16 @@ db.run(`
      created_at DATETIME DEFAULT CURRENT_TIMESTAMP)`
 )
 
+db.run(`
+    CREATE TABLE IF NOT EXISTS shared_documents (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    document_id INTEGER NOT NULL,
+    share_token TEXT UNIQUE NOT NULL,
+    role TEXT NOT NULL DEFAULT 'viewer' CHECK (role IN ('viewer','editor')),
+    expires_at DATETIME NULL,
+    revoked_at DATETIME NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE) 
+`)
+
 export default db

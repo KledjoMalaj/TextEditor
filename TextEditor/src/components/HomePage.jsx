@@ -92,16 +92,13 @@ function HomePage() {
         <>
             {titlePopUp && <TitlePupUp onClose={()=>setTitlePopUP(false)}/>}
 
-            {/* Header Section - Responsive */}
             <div className={'flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-0 my-2 mx-3 mt-5 mb-4'}>
 
-                {/* User Info */}
                 <h1 className={'flex gap-2 bg-blue-700 rounded p-3 px-5 shadow-lg text-base sm:text-lg font-semibold text-white w-full sm:w-auto justify-center sm:justify-start'}>
                     <FaRegUser className={'h-5 w-5 sm:h-6 sm:w-6 text-white'}/>
                     <span className={'truncate max-w-[150px] sm:max-w-none'}>{user.email}</span>
                 </h1>
 
-                {/* Start New Button */}
                 <div className={'flex bg-white py-2 px-4 sm:px-6 rounded shadow-lg w-full sm:w-auto justify-center'}>
                     <h1 className={'pl-2 h-6 w-30 mt-2 font-semibold text-lg sm:text-xl'}>Start New</h1>
                     <button className={'StartButton'}
@@ -110,7 +107,6 @@ function HomePage() {
                     </button>
                 </div>
 
-                {/* Logout Button */}
                 <button
                     className={'text-base sm:text-lg font-semibold text-white flex gap-2 cursor-pointer bg-red-500 rounded shadow-lg p-3 px-5 hover:bg-red-600 hover:shadow-xl transition-all duration-150 w-full sm:w-auto justify-center'}
                     onClick={handleLogOut}>
@@ -119,12 +115,10 @@ function HomePage() {
 
             </div>
 
-            {/* Documents Grid - Responsive */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 mx-3 bg-white rounded p-3 sm:p-5 border">
                 {documents && documents.map(i => (
                     <div key={i.id} className="Document-card">
                         <div className={"Document-card2"}>
-                            {/* Document Header */}
                             <div className="bg-blue-500 flex justify-between items-center p-2 sm:p-3 rounded-t">
                                 <h1 className="text-white text-base sm:text-lg font-semibold truncate flex-1 mr-2">
                                     {i.title}
@@ -136,7 +130,6 @@ function HomePage() {
                                     <Bars3Icon className={"h-5 w-5 sm:h-6 sm:w-6 text-white"}/>
                                 </button>
 
-                                {/* Options Menu */}
                                 <div className={"absolute z-50"}>
                                     {openMenuId === i.id && (
                                         <OptionsMenu
@@ -148,7 +141,6 @@ function HomePage() {
                                 </div>
                             </div>
 
-                            {/* Document Preview */}
                             <div
                                 onClick={() => handleOpenDoc(i.id)}
                                 className="bg-white flex-grow cursor-pointer p-3 sm:p-4 overflow-hidden
