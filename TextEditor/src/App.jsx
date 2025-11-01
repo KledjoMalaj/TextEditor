@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import HomePage from "./components/HomePage.jsx";
 import LandingPage from "./components/LandingPage/LandingPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import SharedPage from "./components/SharedPage.jsx";
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
         <>
             <Routes>
                 <Route path="/" element={<LandingPage/>}/>
+                <Route path={"/shared/:token"} element={<SharedPage/>}/>
 
                 <Route path="/homePage" element={
                     <ProtectedRoute>

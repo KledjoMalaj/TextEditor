@@ -39,4 +39,41 @@ router.post('/documents/:id/share', authenticateToken, (req,res)=>{
     })
 })
 
+router.get('/shared/:token', (req,res)=>{
+    const {token} = req.params
+
+    const sql = `
+        SELECT d.*, sd.role, sd.expires_at, sd.revoked_at
+        FROM shared_documents sd
+        JOIN documents d ON sd.document_id = d.id
+        WHERE sd.share_token = ?
+    `;
+
+    db.get(sql, [token], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (!result) return res.status(404).json({ error: 'Shared document not found' });
+
+        // Check if revoked
+        if (result.revoked_at) {
+            return res.status(403).json({ error: 'This share link has been revoked' });
+        }
+
+        // Check if expired
+        if (result.expires_at && new Date(result.expires_at) < new Date()) {
+            return res.status(403).json({ error: 'This share link has expired' });
+        }
+
+        res.json({
+            document: {
+                id: result.id,
+                title: result.title,
+                content: result.content,
+                created_at: result.created_at,
+                updated_at: result.updated_at
+            },
+            role: result.role
+        });
+    });
+})
+
 export default router
