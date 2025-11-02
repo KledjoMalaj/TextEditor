@@ -21,6 +21,7 @@ function Editor(){
                     extractAndLoadFonts(res.data.content);
                 }
                 setContent(res.data.content);
+
                 setTitle(res.data.title)
             })
             .catch(err => {
