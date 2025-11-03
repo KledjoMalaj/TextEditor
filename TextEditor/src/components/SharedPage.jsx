@@ -8,7 +8,6 @@ function SharedPage() {
     const { token } = useParams();
     const [documentData, setDocumentData] = useState(null);
     const [role, setRole] = useState("");
-    const [content, setContent] = useState("");
     const [loading, setLoading] = useState(true);
     const editorRef = useRef(null);
 
@@ -18,13 +17,11 @@ function SharedPage() {
             .then((res) => {
                 const { document, role } = res.data;
                 setDocumentData(document);
-                setContent(document.content || "");
                 setRole(role);
-                extractAndLoadFonts(document.content || "");
-
-                // Set innerHTML for editor mode
+                // Load content and fonts once
                 if (editorRef.current) {
                     editorRef.current.innerHTML = document.content || "";
+                    extractAndLoadFonts(document.content || "");
                 }
             })
             .catch((err) => {
@@ -35,8 +32,10 @@ function SharedPage() {
     }, [token]);
 
     const extractAndLoadFonts = (html) => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = html;
         const matches = html.match(/face="([^"]+)"/g) || [];
-        const uniqueFonts = [...new Set(matches.map((m) => m.replace(/face="|"/g, "")))];
+        const uniqueFonts = [...new Set(matches.map(m => m.replace(/face="|"/g, "")))];
         uniqueFonts.forEach(loadGoogleFont);
     };
 
@@ -52,7 +51,9 @@ function SharedPage() {
     };
 
     const handleInput = (e) => {
-        setContent(e.target.innerHTML);
+        if (editorRef.current) {
+            setContent(editorRef.current.innerHTML);
+        }
     };
 
     if (loading) {
@@ -68,8 +69,8 @@ function SharedPage() {
             {role === "viewer" && (
                 <div className="p-2 sm:p-4 md:p-8 flex justify-center items-start min-h-screen">
                     <div
+                        dangerouslySetInnerHTML={{ __html: documentData.content }}
                         className="Editor"
-                        dangerouslySetInnerHTML={{ __html: content }}
                     />
                 </div>
             )}
@@ -77,15 +78,14 @@ function SharedPage() {
             {role === "editor" && (
                 <>
                     <div className="sticky top-0 pt-1 z-10">
-                        <ToolBar content={content} id={documentData.id} title={documentData.title} />
+                        <ToolBar content={documentData.content} id={documentData.id} title={documentData.title} />
                     </div>
-
-                    <div className="p-2 sm:p-4 md:p-8 flex justify-center items-start min-h-screen">
+                    <div className={'p-2 sm:p-4 md:p-8 flex justify-center items-start min-h-screen'}>
                         <div
                             ref={editorRef}
-                            className="Editor border border-gray-300 rounded-md p-4 outline-none focus:ring-2 focus:ring-blue-400 transition"
-                            contentEditable
+                            className={"Editor"}
                             suppressContentEditableWarning
+                            contentEditable={true}
                             onInput={handleInput}
                         />
                     </div>
