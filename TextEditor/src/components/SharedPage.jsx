@@ -22,7 +22,8 @@ function SharedPage() {
                 setRole(role);
                 extractAndLoadFonts(document.content || "");
 
-                if (editorRef.current && role === "editor") {
+                // Set innerHTML for editor mode
+                if (editorRef.current) {
                     editorRef.current.innerHTML = document.content || "";
                 }
             })
