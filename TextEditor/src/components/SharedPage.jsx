@@ -8,20 +8,24 @@ function SharedPage() {
     const { token } = useParams();
     const [documentData, setDocumentData] = useState(null);
     const [role, setRole] = useState("");
+    const [content, setContent] = useState("");
     const [loading, setLoading] = useState(true);
     const editorRef = useRef(null);
 
     useEffect(() => {
         axios
             .get(`${API_URL}/ShareDocuments/shared/${token}`)
-            .then((res) => {
+            .then(async (res) => {
                 const { document, role } = res.data;
                 setDocumentData(document);
                 setRole(role);
-                // Load content and fonts once
+
+                await extractAndLoadFonts(document.content || "");
+
+                setContent(document.content || "");
+
                 if (editorRef.current) {
                     editorRef.current.innerHTML = document.content || "";
-                    extractAndLoadFonts(document.content || "");
                 }
             })
             .catch((err) => {
@@ -31,29 +35,34 @@ function SharedPage() {
             .finally(() => setLoading(false));
     }, [token]);
 
-    const extractAndLoadFonts = (html) => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = html;
+    const extractAndLoadFonts = async (html) => {
         const matches = html.match(/face="([^"]+)"/g) || [];
         const uniqueFonts = [...new Set(matches.map(m => m.replace(/face="|"/g, "")))];
-        uniqueFonts.forEach(loadGoogleFont);
+
+        await Promise.all(uniqueFonts.map(fontName => loadGoogleFont(fontName)));
     };
 
     const loadGoogleFont = (fontName) => {
-        const linkId = `google-font-${fontName.replaceAll(" ", "-")}`;
-        if (!document.getElementById(linkId)) {
+        return new Promise((resolve) => {
+            const linkId = `google-font-${fontName.replaceAll(" ", "-")}`;
+
+            if (document.getElementById(linkId)) {
+                resolve();
+                return;
+            }
+
             const link = document.createElement("link");
             link.id = linkId;
             link.rel = "stylesheet";
             link.href = `https://fonts.googleapis.com/css2?family=${fontName.replaceAll(" ", "+")}`;
+            link.onload = () => resolve();
+            link.onerror = () => resolve();
             document.head.appendChild(link);
-        }
+        });
     };
 
     const handleInput = (e) => {
-        if (editorRef.current) {
-            setContent(editorRef.current.innerHTML);
-        }
+        setContent(e.target.innerHTML);
     };
 
     if (loading) {
@@ -69,7 +78,7 @@ function SharedPage() {
             {role === "viewer" && (
                 <div className="p-2 sm:p-4 md:p-8 flex justify-center items-start min-h-screen">
                     <div
-                        dangerouslySetInnerHTML={{ __html: documentData.content }}
+                        dangerouslySetInnerHTML={{ __html: content }}
                         className="Editor"
                     />
                 </div>
@@ -78,7 +87,7 @@ function SharedPage() {
             {role === "editor" && (
                 <>
                     <div className="sticky top-0 pt-1 z-10">
-                        <ToolBar content={documentData.content} id={documentData.id} title={documentData.title} />
+                        <ToolBar content={content} id={documentData.id} title={documentData.title} />
                     </div>
                     <div className={'p-2 sm:p-4 md:p-8 flex justify-center items-start min-h-screen'}>
                         <div
