@@ -14,6 +14,8 @@ function OptionsMenu({documentId, onDelete, onRename}){
     const [role, setRole] = useState('')
     const [expiration, setExpiration] = useState('')
 
+    const [Url,setUrl] = useState("")
+
     const handleSubmit = (e) => {
         e.preventDefault();
         onRename(documentId, title);
@@ -27,6 +29,7 @@ function OptionsMenu({documentId, onDelete, onRename}){
                 headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
             }).then(res => {
             const shareURL = res.data.shareURL
+            setUrl(shareURL)
             navigator.clipboard.writeText(shareURL).then(() => {
                 console.log('Link copied to clipboard!')
                 setShare(false)
@@ -57,6 +60,7 @@ function OptionsMenu({documentId, onDelete, onRename}){
             {share &&
                 <>
                 <div className={'fixed inset-0 bg-black/50 flex items-center justify-center z-50'}>
+
                     <div className="bg-white p-2 rounded w-80">
                         <button onClick={()=>setShare(false)}><XMarkIcon className={"h-6 w-6 text-red-500 cursor-pointer"}/></button>
                         <form className={"text-center pb-5"} onSubmit={handleShare}>
@@ -71,8 +75,11 @@ function OptionsMenu({documentId, onDelete, onRename}){
                                    onChange={(e) => setExpiration(e.target.value)}
                             />
                             <button className={"w-50 cursor-pointer bg-blue-400 text-white px-2 rounded"} type="submit">Get Link</button>
+
                         </form>
                     </div>
+
+                    <div className={"absolute mt-55 bg-white p-2 rounded"}>{Url}</div>
                 </div>
             </>
             }
