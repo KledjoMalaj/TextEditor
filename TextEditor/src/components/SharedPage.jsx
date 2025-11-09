@@ -13,43 +13,30 @@ function SharedPage() {
     const editorRef = useRef(null);
 
     useEffect(() => {
-        console.log('1. Starting fetch for token:', token);
-
         axios
             .get(`${API_URL}/ShareDocuments/shared/${token}`)
             .then(async (res) => {
-                console.log('2. Response received:', res.data);
-
                 const { document, role } = res.data;
-                console.log('3. Document content length:', document.content?.length);
-                console.log('4. Role:', role);
 
                 setDocumentData(document);
                 setRole(role);
+                setContent(document.content || "");
 
                 await extractAndLoadFonts(document.content || "");
-                console.log('5. Fonts loaded');
-
-                setContent(document.content || "");
-                console.log('6. Content state set');
-
-                if (editorRef.current) {
-                    console.log('7. Setting innerHTML on editorRef');
-                    editorRef.current.innerHTML = document.content || "";
-                    console.log('8. innerHTML set, value:', editorRef.current.innerHTML.substring(0, 50));
-                } else {
-                    console.log('7. editorRef.current is NULL!');
-                }
             })
             .catch((err) => {
-                console.error('ERROR:', err);
+                console.error('Error loading shared document:', err);
                 alert("Error loading shared document.");
             })
-            .finally(() => {
-                console.log('9. Finally - setting loading false');
-                setLoading(false);
-            });
+            .finally(() => setLoading(false));
     }, [token]);
+
+    useEffect(() => {
+        if (role === "editor" && editorRef.current && content) {
+            console.log('Setting innerHTML now that editor exists');
+            editorRef.current.innerHTML = content;
+        }
+    }, [role, content]);
 
 
 
