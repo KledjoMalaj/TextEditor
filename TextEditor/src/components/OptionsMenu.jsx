@@ -32,7 +32,6 @@ function OptionsMenu({documentId, onDelete, onRename}){
             setUrl(shareURL)
             navigator.clipboard.writeText(shareURL).then(() => {
                 console.log('Link copied to clipboard!')
-                setShare(false)
             }).catch(err => {
                 console.error('Failed to copy link: ', err)
             })
@@ -64,11 +63,14 @@ function OptionsMenu({documentId, onDelete, onRename}){
                     <div className="bg-white p-2 rounded w-80">
                         <button onClick={()=>setShare(false)}><XMarkIcon className={"h-6 w-6 text-red-500 cursor-pointer"}/></button>
                         <form className={"text-center pb-5"} onSubmit={handleShare}>
-                            <input className={"border border-blue-500 rounded px-2 mb-2 text-center"}
-                                   placeholder="Enter role"
-                                   value={role}
-                                   onChange={(e) => setRole(e.target.value)}
-                            /><br></br>
+
+                    <select className={"border border-blue-500 rounded px-13 mb-2 text-center text-gray-500 cursor-pointer"}
+                    onChange={(e)=>setRole(e.target.value)}>
+                        <option>Select Role</option>
+                        <option value={'viewer'}>Viewer</option>
+                        <option value={'editor'}>Editor</option>
+                    </select><br></br>
+
                             <input className={"border border-blue-500 rounded px-2 mb-2 text-center"}
                                    placeholder="Enter Duration"
                                    value={expiration}
@@ -78,8 +80,9 @@ function OptionsMenu({documentId, onDelete, onRename}){
 
                         </form>
                     </div>
-
-                    <div className={"absolute mt-55 bg-white p-2 rounded"}>{Url}</div>
+                    {Url &&
+                        <div className={"absolute mt-55 bg-white p-2 rounded text-sm"}>{Url}</div>
+                    }
                 </div>
             </>
             }

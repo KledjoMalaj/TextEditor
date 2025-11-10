@@ -32,11 +32,10 @@ function SharedPage() {
     }, [token]);
 
     useEffect(() => {
-        if (role === "editor" && editorRef.current && content) {
-            console.log('Setting innerHTML now that editor exists');
-            editorRef.current.innerHTML = content;
+        if (role === "editor" && editorRef.current && documentData?.content) {
+            editorRef.current.innerHTML = documentData.content;
         }
-    }, [role, content]);
+    }, [role, documentData]);
 
 
 
